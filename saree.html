@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Saree shop website with product collection, customer reviews, and contact details." />
+  <title>SS Saree Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --muted:#555555;
+      --accent:#b83280;
+      --accent-dark:#932a66;
+      --card:#f8f8f8;
+      --border:#e9e9e9;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(1120px,92%);
+      margin:auto;
+    }
+
+    .section{
+      padding:72px 0;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      font-size:.82rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      font-weight:600;
+      margin-bottom:12px;
+    }
+
+    .section h2{
+      font-size:clamp(1.6rem,2.8vw,2.4rem);
+      margin-bottom:14px;
+      line-height:1.2;
+    }
+
+    .section p.lead{
+      color:var(--muted);
+      max-width:720px;
+    }
+
+    .btn-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:600;
+      border:1px solid transparent;
+      transition:.2s ease;
+      min-height:46px;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-primary:hover{
+      background:var(--accent-dark);
+    }
+
+    .btn-outline{
+      border-color:var(--border);
+      background:#fff;
+      color:var(--text);
+    }
+
+    .btn-outline:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:saturate(180%) blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:18px;
+      position:relative;
+    }
+
+    .brand{
+      font-size:1.1rem;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .brand span{
+      color:var(--accent);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    .nav-links a:hover{
+      color:var(--accent);
+    }
+
+    .menu-btn{
+      display:none;
+      background:none;
+      border:0;
+      font-size:1.4rem;
+      color:var(--text);
+      cursor:pointer;
+      line-height:1;
+    }
+
+    .hero{
+      padding:70px 0 36px;
+      background:
+        radial-gradient(circle at top right, rgba(184,50,128,.08), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(184,50,128,.06), transparent 26%);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+      gap:32px;
+      align-items:center;
+    }
+
+    .hero-box{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero h1{
+      font-size:clamp(2.1rem,5vw,4rem);
+      line-height:1.05;
+      margin-bottom:16px;
+    }
+
+    .hero p{
+      color:var(--muted);
+      max-width:620px;
+    }
+
+    .hero-card{
+      background:linear-gradient(180deg,#fff, #fff7fb);
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-image{
+      border-radius:22px;
+      overflow:hidden;
+      aspect-ratio:4/5;
+      background:#f3f3f3;
+    }
+
+    .hero-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .stat{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      text-align:center;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:1.1rem;
+    }
+
+    .stat span{
+      font-size:.84rem;
+      color:var(--muted);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+      margin-top:26px;
+    }
+
+    .product-card,
+    .service-card,
+    .testimonial-card,
+    .contact-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .product-card{
+      grid-column:span 4;
+      overflow:hidden;
+    }
+
+    .product-thumb{
+      aspect-ratio:4/3;
+      background:#f2f2f2;
+    }
+
+    .product-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .product-body{
+      padding:16px;
+    }
+
+    .product-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .product-top h3{
+      font-size:1.03rem;
+      line-height:1.3;
+    }
+
+    .price{
+      color:var(--accent);
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .product-meta{
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:6px;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-top:12px;
+      font-size:.76rem;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff1f7;
+      color:var(--accent);
+      font-weight:600;
+    }
+
+    .service-card{
+      grid-column:span 3;
+      padding:18px;
+    }
+
+    .service-card h3{
+      font-size:1rem;
+      margin-bottom:8px;
+    }
+
+    .service-card p{
+      font-size:.92rem;
+      color:var(--muted);
+    }
+
+    .review-summary{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin:18px 0 0;
+    }
+
+    .rating-box{
+      min-width:220px;
+      padding:18px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .rating-box .score{
+      font-size:2rem;
+      font-weight:700;
+      color:var(--accent);
+      line-height:1;
+    }
+
+    .stars{
+      color:#f5a623;
+      font-size:1.05rem;
+      letter-spacing:1px;
+      margin:8px 0;
+    }
+
+    .testimonial-card{
+      grid-column:span 4;
+      padding:18px;
+    }
+
+    .testimonial-card p{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .testimonial-card strong{
+      display:block;
+      margin-top:14px;
+    }
+
+    .contact-wrap{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+      margin-top:24px;
+    }
+
+    .contact-card{
+      padding:20px;
+    }
+
+    .contact-list{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .contact-item{
+      padding:12px 14px;
+      background:var(--card);
+      border-radius:14px;
+      border:1px solid var(--border);
+    }
+
+    form{
+      display:grid;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    input,textarea{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      font:inherit;
+      background:#fff;
+      color:var(--text);
+      outline:none;
+    }
+
+    input:focus,textarea:focus{
+      border-color:var(--accent);
+    }
+
+    textarea{
+      min-height:130px;
+      resize:vertical;
+    }
+
+    .footer{
+      padding:24px 0;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .small-note{
+      font-size:.9rem;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    @media (max-width: 992px){
+      .hero-grid,
+      .contact-wrap{
+        grid-template-columns:1fr;
+      }
+
+      .product-card,
+      .testimonial-card{
+        grid-column:span 6;
+      }
+
+      .service-card{
+        grid-column:span 4;
+      }
+
+      .cards{
+        gap:16px;
+      }
+    }
+
+    @media (max-width: 768px){
+      .section{
+        padding:56px 0;
+      }
+
+      .hero{
+        padding:42px 0 28px;
+      }
+
+      .hero-box{
+        padding:20px;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .product-card,
+      .service-card,
+      .testimonial-card{
+        grid-column:span 12;
+      }
+
+      .nav-links{
+        display:none;
+        position:absolute;
+        left:0;
+        right:0;
+        top:58px;
+        background:#fff;
+        border:1px solid var(--border);
+        border-radius:18px;
+        box-shadow:var(--shadow);
+        padding:14px;
+        flex-direction:column;
+        gap:12px;
+      }
+
+      .nav-links.open{
+        display:flex;
+      }
+
+      .menu-btn{
+        display:block;
+      }
+
+      .nav{
+        align-items:center;
+      }
+
+      .hero h1{
+        font-size:clamp(1.9rem,9vw,2.8rem);
+      }
+
+      .btn{
+        width:100%;
+      }
+
+      .btn-row{
+        flex-direction:column;
+      }
+
+      .product-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+
+    @media (max-width: 480px){
+      .container{
+        width:min(1120px,94%);
+      }
+
+      .section{
+        padding:48px 0;
+      }
+
+      .hero-box,
+      .hero-card,
+      .contact-card,
+      .rating-box{
+        border-radius:20px;
+      }
+
+      .product-body{
+        padding:14px;
+      }
+
+      .contact-item{
+        padding:11px 12px;
+      }
+
+      .brand{
+        font-size:1rem;
+      }
+
+      .nav-links{
+        top:54px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#home">SS<span>Saree Studio</span></a>
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >☰</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#collections">Collections</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-box">
+          <span class="eyebrow">Sarees • Dresses • Elegant Wear</span>
+          <h1>Beautiful sarees and dress materials for every occasion.</h1>
+          <p>Welcome to SS Saree Studio. Explore our latest collections, check product availability, and connect with us easily for orders and visit details.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="tel:+918073066639">Call Now</a>
+            <a class="btn btn-outline" href="https://wa.me/918073066639" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>Fresh</strong><span>New arrivals</span></div>
+            <div class="stat"><strong>Trusted</strong><span>Customer reviews</span></div>
+            <div class="stat"><strong>Easy</strong><span>Shop contact</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80" alt="Elegant saree display">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="collections" class="section">
+      <div class="container">
+        <span class="eyebrow">Our Collections</span>
+        <h2>Sarees and dress materials available in our shop</h2>
+        <p class="lead">Products below are displayed so customers can quickly see available items, prices, and categories before visiting the shop.</p>
+
+        <div class="cards">
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&w=900&q=80" alt="Silk saree">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Silk Saree</h3>
+                <span class="price">₹ 4,500</span>
+              </div>
+              <p class="product-meta">Category: Saree</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3d14?auto=format&fit=crop&w=900&q=80" alt="Cotton saree">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Cotton Saree</h3>
+                <span class="price">₹ 1,200</span>
+              </div>
+              <p class="product-meta">Category: Saree</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?auto=format&fit=crop&w=900&q=80" alt="Dress material set">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Dress Material Set</h3>
+                <span class="price">₹ 1,800</span>
+              </div>
+              <p class="product-meta">Category: Dress</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1610030469984-2f2a2d6b0fd6?auto=format&fit=crop&w=900&q=80" alt="Party wear saree">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Party Wear Saree</h3>
+                <span class="price">₹ 2,900</span>
+              </div>
+              <p class="product-meta">Category: Saree</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80" alt="Printed dress material">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Printed Dress Material</h3>
+                <span class="price">₹ 1,650</span>
+              </div>
+              <p class="product-meta">Category: Dress</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-thumb">
+              <img src="https://images.unsplash.com/photo-1617010600555-9a1f8c6542da?auto=format&fit=crop&w=900&q=80" alt="Festival saree">
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <h3>Festival Saree</h3>
+                <span class="price">₹ 3,300</span>
+              </div>
+              <p class="product-meta">Category: Saree</p>
+              <span class="badge">Available</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="section" style="background:#fafafa">
+      <div class="container">
+        <span class="eyebrow">Trusted by Customers</span>
+        <h2>Customer feedback</h2>
+        <p class="lead">Use the overall review tone to show trust. These short testimonials are original and not copied word-for-word.</p>
+
+        <div class="review-summary">
+          <div class="rating-box">
+            <div class="score">4.8</div>
+            <div class="stars">★★★★★</div>
+            <p class="small-note">Google rating</p>
+            <p class="small-note">Review count: placeholder</p>
+          </div>
+
+          <div class="cards" style="flex:1;margin-top:0">
+            <article class="testimonial-card">
+              <p>The sarees here feel well selected and the quality looks dependable. The shop makes it easy to choose the right material.</p>
+              <strong>Happy Customer</strong>
+            </article>
+            <article class="testimonial-card">
+              <p>Friendly service, attractive collection, and clear pricing. A good place to find dress materials for occasions.</p>
+              <strong>Regular Buyer</strong>
+            </article>
+            <article class="testimonial-card">
+              <p>The collection is neat, and availability is easy to understand. It gives confidence before visiting the shop.</p>
+              <strong>Local Shopper</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <span class="eyebrow">Contact</span>
+        <h2>Visit us or send a message</h2>
+        <p class="lead">Add your exact Google Business Profile information below. If something is missing, keep the placeholder text and replace it later.</p>
+
+        <div class="contact-wrap">
+          <div class="contact-card">
+            <h3>Shop Details</h3>
+            <div class="contact-list">
+              <div class="contact-item"><strong>Address:</strong> First floor,Mailarling complex</div>
+              <div class="contact-item"><strong>Phone:</strong> +91 8073066639,9606476477</div>
+              <div class="contact-item"><strong>Opening Hours:</strong> 10:00 AM – 9:00 PM</div>
+              <div class="contact-item"><strong>Location:</strong> Butter market Hubli, Karnataka</div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3>Contact Form</h3>
+            <form id="contactForm">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="tel" name="phone" placeholder="Your Phone Number" required>
+              <textarea name="message" placeholder="Write your message" required></textarea>
+              <button class="btn btn-primary" type="submit">Send Message</button>
+            </form>
+            <p class="small-note" id="formMsg" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 SS Saree Studio. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    const contactForm = document.getElementById('contactForm');
+    const formMsg = document.getElementById('formMsg');
+
+    function setMenu(open) {
+      navLinks.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+    }
+
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = navLinks.classList.contains('open');
+      setMenu(!isOpen);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.classList.contains('open')) return;
+      if (navLinks.contains(e.target) || menuBtn.contains(e.target)) return;
+      setMenu(false);
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => setMenu(false));
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setMenu(false);
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    contactForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formMsg.textContent = 'Thank you. Your message has been captured successfully.';
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
